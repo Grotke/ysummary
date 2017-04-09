@@ -5,7 +5,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 app = Flask(__name__)
 
 env = Environment(
-    loader=PackageLoader('base', 'templates'),
+    loader=PackageLoader('ysummary', 'templates'),
     autoescape=select_autoescape(['html', 'xml'])
 )
 
