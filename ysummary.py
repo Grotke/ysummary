@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from jinja2 import Environment, PackageLoader, select_autoescape
+import YoutubeDataFetcher
 
 
 app = Flask(__name__)
@@ -10,29 +11,32 @@ env = Environment(
 )
 
 class Channel:
-    def __init__(self, name, channelUrl, videos):
+    def __init__(self, name, channelId, videos):
         self.name = name
-        self.channelUrl = channelUrl
+        if channelId:
+            self.channelUrl = "https://www.youtube.com/channel/"+channelId
+        else:
+            self.channelUrl = ""
         self.videos = videos
 
 class Video:
-    def __init__(self, title, videoUrl, thumbnail, thumbAltText):
+    def __init__(self, title, videoId, thumbnail, thumbAltText):
         self.title = title
-        self.videoUrl = videoUrl
+        if videoId:
+            self.videoUrl = "https://www.youtube.com/watch?v=" + videoId
+        else:
+            self.videoUrl = ""
         self.thumbnail = thumbnail
         self.thumbAltText = thumbAltText
 
 
 @app.route('/home.html')
 def home():
-    videos1 = [Video("Cats", "", "https://i.ytimg.com/vi/rHgCTRB3hfU/maxresdefault.jpg", "Alt Text")]
-    videos2 = [Video("Animu Girls", "", "https://i.ytimg.com/vi/rHgCTRB3hfU/maxresdefault.jpg", "Jesse Cox Alt Text")]
-    videos3 = [Video("Baking", "", "", "")]
+    uploadPlaylistIds = ["UUq54nlcoX-0pLcN5RhxHyug", "UUqg2eLFNUu3QN3dttNeOWkw", "UUCbfB3cQtkEAiKfdRQnfQvw"]
+    youtube = YoutubeDataFetcher.YoutubeDataFetcher()
+    channels = youtube.fetchVideos(uploadPlaylistIds)
     return render_template('home.html', 
-        channels=[
-        Channel("Seananners", "https://www.youtube.com/user/SeaNanners/videos", videos1), 
-        Channel("Jesse Cox", "https://www.youtube.com/user/OMFGcata/videos", videos2),
-        Channel("Cupquake", "http://www.colgate.com/en/us/oc/", videos3)])
+        channels=channels)
 
 
 
