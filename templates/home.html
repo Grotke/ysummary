@@ -5,23 +5,17 @@
     <div class="row">
     {% for channel in channels %}
         <div class="text-center col-md-6">
-            <h1 style="font-size: 48px"><a href="{{ channel.videoUrl }}" target="_blank">{{ channel.name }} </a></h1>
+            <h1 style="font-size: 48px"><a href="{{ channel.channelUrl }}" target="_blank">{{ channel.name }} </a></h1>
             <hr style="  border: 0; height: 1px; background: #333; background-image: linear-gradient(to right, #ccc, #333, #ccc);">
             <ul class="text-left list-group" style="font-size: 24px">
-            <a href="https://www.youtube.com/watch?v=GkbqEnAJLXA" class="list-group-item"><li class="list-group-item" target="_blank"><img src="https://i.ytimg.com/vi/GkbqEnAJLXA/hqdefault.jpg?custom=true&w=196&h=110&stc=true&jpg444=true&jpgq=90&sp=68&sigh=jg2ncsrQstbPkK40J9lBU-mwzkc" alt="Seananners image" class="img-thumbnail">Cats
+
+            {% for video in channel.videos %}
+            <a href="{{ video.videoUrl }}" class="list-group-item"><li class="list-group-item" target="_blank"><img src="{{ video.thumbnail }}" alt="{{ video.thumbAltText }}" class="img-thumbnail">
+            {{ video.title }}
             </li></a>
-            <a href="https://www.youtube.com/watch?v=2VMGI5y61hU" class="list-group-item"><li class="list-group-item"><img src="https://i.ytimg.com/vi/2VMGI5y61hU/hqdefault.jpg?custom=true&w=196&h=110&stc=true&jpg444=true&jpgq=90&sp=68&sigh=h1VHzffpV2H5Xjv2txyFG8H0h8o" alt="Seananners image" class="img-thumbnail">Pirates</li></a>
-            </ul>
+            {% endfor %}
         </div>
     {% endfor %}
-     <div class="text-center col-md-6">
-            <h1 style="font-size: 48px"><a href="https://www.youtube.com/user/OMFGcata/videos" target="_blank">Jesse Cox</a></h1>
-            <hr style="  border: 0; height: 1px; background: #333; background-image: linear-gradient(to right, #ccc, #333, #ccc);">
-            <ol class="text-left" style="font-size: 24px">
-            <a href="https://www.youtube.com/watch?v=GZ6_Pc0YGVY" class="list-group-item"><li class="list-group-item"><img src="https://i.ytimg.com/vi/GZ6_Pc0YGVY/hqdefault.jpg?custom=true&w=196&h=110&stc=true&jpg444=true&jpgq=90&sp=68&sigh=x7wkqjsjam5Zptq-QmxwypZlXFg" alt="Seananners image" class="img-thumbnail">Animu Girls</li></a>
-            <a href="https://www.youtube.com/watch?v=-MmJnLTUMNg" class="list-group-item"><li class="list-group-item"><img src="https://i.ytimg.com/vi/-MmJnLTUMNg/hqdefault.jpg?custom=true&w=196&h=110&stc=true&jpg444=true&jpgq=90&sp=68&sigh=bCzvVh2N40bgkHURbEMvqMXrvH0" alt="Seananners image" class="img-thumbnail">Crendor</li></a>
-            </ol>
-        </div>
-        </div>
     </div>
+</div>
 {% endblock %}
