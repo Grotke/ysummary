@@ -30,7 +30,7 @@ class Video:
         self.thumbAltText = thumbAltText
 
 
-@app.route('/home.html')
+@app.route('/')
 def home():
     uploadPlaylistIds = ["UUq54nlcoX-0pLcN5RhxHyug", "UUqg2eLFNUu3QN3dttNeOWkw", "UUCbfB3cQtkEAiKfdRQnfQvw"]
     youtube = YoutubeDataFetcher.YoutubeDataFetcher()
