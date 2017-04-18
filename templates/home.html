@@ -4,16 +4,16 @@
 <div class="container-fluid">
     <div class="row">
     {% for channel in channels %}
-        <div class="text-center col-md-6">
-            <h1 style="font-size: 48px"><a href="{{ channel.channelUrl }}" target="_blank">{{ channel.name }} </a></h1>
-            <hr style="  border: 0; height: 1px; background: #333; background-image: linear-gradient(to right, #ccc, #333, #ccc);">
-            <ul class="text-left list-group" style="font-size: 24px">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 24px"><a href="{{ channel.channelUrl }}">{{ channel.name }} </a></div>
 
+            <div class="panel-body">
             {% for video in channel.videos %}
-            <a href="{{ video.videoUrl }}" class="list-group-item"><li class="list-group-item" target="_blank"><img src="{{ video.thumbnail }}" alt="{{ video.thumbAltText }}" class="img-thumbnail">
-            {{ video.title }}
-            </li></a>
+            <div class="thumbnail col-md-2" style="margin: 10px" >
+            <a href="{{ video.videoUrl }}"><img src="{{ video.thumbnail }}" alt="{{ video.thumbAltText }}"><div class="caption">
+            {{ video.title }}</a></div></div>
             {% endfor %}
+            </div>
         </div>
     {% endfor %}
     </div>

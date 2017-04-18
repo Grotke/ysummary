@@ -46,7 +46,7 @@ class YoutubeDataFetcher:
 				channelTitle = snippet.get("channelTitle")
 				channelId = snippet.get("channelId")
 				videoTitle = snippet.get("title")
-				thumbnail = snippet.get("thumbnails").get("default").get("url")
+				thumbnail = snippet.get("thumbnails").get("medium").get("url")
 				thumbAltText = ""
 				videos.append(Video(videoTitle, videoId, thumbnail, thumbAltText))
 			channels.append(Channel(channelTitle, channelId, videos))
