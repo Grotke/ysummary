@@ -3,11 +3,12 @@ from apiclient.errors import HttpError
 from ysummary import Video, Channel
 
 class YoutubeDataFetcher:
-	def __init__(self):
+	def __init__(self, httpAuth=''):
 		self.DEVELOPER_KEY = "AIzaSyAd8QhFU3KJB33UIeFcITQtxZp-nkjplHc"
 		self.YOUTUBE_API_SERVICE_NAME = "youtube"
 		self.YOUTUBE_API_VERSION = "v3"
-		self.youtube = build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION, developerKey=self.DEVELOPER_KEY)
+		self.httpAuth = httpAuth
+		self.youtube = build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION, http=self.httpAuth, developerKey=self.DEVELOPER_KEY)
 
 
 	def connect(self):
@@ -19,7 +20,7 @@ class YoutubeDataFetcher:
 
 		return search_response
 
-	def fetchVideos(self, playlistIds):
+	def fetchVideosAndChannels(self, playlistIds):
 		channels = []
 		for playId in playlistIds:
 			searchResponse = self.youtube.playlistItems().list(
@@ -51,3 +52,52 @@ class YoutubeDataFetcher:
 				videos.append(Video(videoTitle, videoId, thumbnail, thumbAltText))
 			channels.append(Channel(channelTitle, channelId, videos))
 		return channels
+
+	def fetchPlaylistIdsFromChannelIds(self, channelIds):
+		uploadPlaylistIds = []
+		for channelId in channelIds:
+			uploadPlaylistIds.append(self.fetchPlaylistIdFromChannelId(channelId))
+		return uploadPlaylistIds
+
+	def fetchPlaylistIdFromChannelId(self, channelId):
+		channelSearchResponse = self.youtube.channels().list(
+			part="contentDetails",
+			id=channelId
+			).execute()
+
+		channel = channelSearchResponse.get("items")[0]
+		uploadPlaylistId = channel.get("contentDetails").get("relatedPlaylists").get("uploads")
+		return uploadPlaylistId
+
+	def fetchSubscribedChannelIds(self):
+		subbedChannelIds = []
+		if self.httpAuth:
+			subSearchResponse = None
+			nextPageToken = ''
+			while not subSearchResponse or nextPageToken:
+				subSearchResponse = self.youtube.subscriptions().list(
+					part="snippet",
+					mine="true",
+					maxResults=5,
+					pageToken=nextPageToken
+				).execute()
+				nextPageToken = subSearchResponse.get("nextPageToken")
+				subs = subSearchResponse.get("items")
+				for sub in subs:
+					channelId = sub.get("snippet").get("resourceId").get("channelId")
+					subbedChannelIds.append(channelId)
+
+		
+		return subbedChannelIds
+
+	def fetchSubscriptions(self):
+		channelIds = self.fetchSubscribedChannelIds()
+		uploadPlaylistIds = self.fetchPlaylistIdsFromChannelIds(channelIds)
+		return self.fetchVideosAndChannels(uploadPlaylistIds)
+
+
+
+
+
+
+

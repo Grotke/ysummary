@@ -2,6 +2,11 @@
 
 {% block content %}
 <div class="container-fluid">
+    {% if loggedIn %}
+        <div class="alert alert-success" role="alert">You've logged in!</div>
+    {% elif accessDenied %}
+        <div class="alert alert-danger" role="alert">Access denied.</div>
+    {% endif %}
     <div class="row">
     {% for channel in channels %}
         <div class="panel panel-default">
