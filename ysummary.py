@@ -22,7 +22,7 @@ class Channel:
         self.videos = videos
 
 class Video:
-    def __init__(self, title, videoId, thumbnail, thumbAltText):
+    def __init__(self, title, videoId, thumbnail, thumbAltText, publishDate):
         self.title = title
         if videoId:
             self.videoUrl = "https://www.youtube.com/watch?v=" + videoId
@@ -30,6 +30,7 @@ class Video:
             self.videoUrl = ""
         self.thumbnail = thumbnail
         self.thumbAltText = thumbAltText
+        self.publishDate = publishDate
 
 
 @app.route('/')

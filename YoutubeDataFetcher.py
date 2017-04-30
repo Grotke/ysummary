@@ -49,8 +49,12 @@ class YoutubeDataFetcher:
 				videoTitle = snippet.get("title")
 				thumbnail = snippet.get("thumbnails").get("medium").get("url")
 				thumbAltText = ""
-				videos.append(Video(videoTitle, videoId, thumbnail, thumbAltText))
+				publishDate = snippet.get("publishedAt")
+				videos.append(Video(videoTitle, videoId, thumbnail, thumbAltText, publishDate))
+			videos.sort(key = lambda x: x.publishDate, reverse=True)
 			channels.append(Channel(channelTitle, channelId, videos))
+
+		channels.sort(key = lambda x: x.name)
 		return channels
 
 	def fetchPlaylistIdsFromChannelIds(self, channelIds):
