@@ -1,10 +1,11 @@
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from ysummary import Video, Channel
+import ysummaryConfig
 
 class YoutubeDataFetcher:
 	def __init__(self, httpAuth=''):
-		self.DEVELOPER_KEY = "AIzaSyAd8QhFU3KJB33UIeFcITQtxZp-nkjplHc"
+		self.DEVELOPER_KEY = ysummaryConfig.devKey
 		self.YOUTUBE_API_SERVICE_NAME = "youtube"
 		self.YOUTUBE_API_VERSION = "v3"
 		self.httpAuth = httpAuth
